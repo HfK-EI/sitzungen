@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SVG mit Javascript manipulieren</title>
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+</head>
+<body>
+    <object id="circle-svg" width="400" height="300" type="image/svg+xml" data="circle.svg"></object>
+    <script>
+        $(window).load(function(){
+            // SVG als Objekt holen
+            var svg = document.getElementById("circle-svg");
+            var svgDoc = svg.contentDocument;
+
+            // Kreis holen
+            var svgItem = svgDoc.getElementById("my-circle");
+
+            // Position des Kreises ändern
+            svgItem.setAttribute("cx", 200);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <title>Test</title>
+    <meta charset='utf-8'> 
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js">
+    alert('test');
+    </script>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            -webkit-box-spacing: border-box;
+                    box-spacing: border-box;
+        }
+        .cf {
+            clear: both;
+        }
+        body {
+            font-family: Helvetica, sans-serif;
+        }
+        .wrap {
+            max-width: 840px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 100px;
+        }
+
+
+        /*------------------------------------*\
+            $FLYOUT
+        \*------------------------------------*/
+        .flyout {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: white;
+            border-radius: 3px;
+            padding: 6px;
+            -webkit-box-shadow: 0px 2px 18px 0px rgba(0,0,0,0.29);
+               -moz-box-shadow: 0px 2px 18px 0px rgba(0,0,0,0.29);
+                    box-shadow: 0px 2px 18px 0px rgba(0,0,0,0.29);
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="sitemap">
+        <ul class="sitemap__list">
+        </ul>
+    </div>
+    <div class="wrap">
+        <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At <a href="" data-linktype="further-information" data-furtherinformationid="1">vero</a> eos et accusam et justo duo <a href="" data-linktype="further-information" data-furtherinformationid="2">dolores</a> et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo <a href="" data-linktype="further-information" data-furtherinformationid="2">dolores</a> et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+    </div>
+    
+
+    <script type="text/javascript">
+    $(document).ready(function(e){
+
+        function showFurtherInformationOnElement(element) {
+            // Zeige weitere Informationen an
+            var further_information_id = element.data('furtherinformationid');
+
+            // Daten laden
+            var url = 'further_information/' + further_information_id + '.txt';
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function(text) {
+                    // Flyout einfügen
+                    $('.wrap').append('<div class="flyout" data-flyoutfurtherinformationid='+further_information_id+'>'+text+'</div>');
+
+                    // Flyout in Variable speichern
+                    $flyout = $('.flyout[data-flyoutfurtherinformationid="'+further_information_id+'"]');
+
+                    // Position des Flyout setzen
+                    $flyout.css({
+                        'top': element.position().top + 16 + 'px',
+                        'left': element.position().left + 'px'
+                    });
+
+                    // Event Listener für mouseleave setzen
+                    element.bind('mouseleave', function(event){
+                        event.preventDefault();
+                        $flyout.remove();
+                    })
+                },
+                error: function() {
+                    alert('Fehler, Digga!')
+                }
+            });
+
+        }
+
+        // Event Listener für Hover von speziellen Links
+        $('a[data-linktype="further-information"]').bind('mouseenter', function(event){
+            event.preventDefault();
+            $this = $(this);
+
+            // Informationen laden
+            showFurtherInformationOnElement($this);
+        })
+    });
+    </script>
+</body>
+</html>

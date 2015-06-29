@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+       <link href='http://fonts.googleapis.com/css?family=Noto+Sans:400,700italic,400italic,700' rel='stylesheet' type='text/css'>
+        <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+        <title>Slider</title>
+        <style>
+            body{margin: 0;padding: 0;list-style: none; font-family: 'Noto Sans', sans-serif; background: #272727;}
+            
+            #circle:hover{
+                background: #4390FF;
+                cursor: pointer;
+            }
+            #bar{
+                position: absolute;
+                left: 200px;
+                top: 100px;
+                width: 200px;
+                height: 30px;
+                background: #ececec;
+                border-radius: 15px;
+            }
+            #circle{
+                position: absolute;
+                left: 0;
+                top:0;
+                width: 30px;
+                height: 30px;
+                background: #43BDFF;
+                border-radius: 15px;
+            }
+			
+			#inputfield {
+				visibility: hidden;
+				border-radius: 15px;
+				background-color: #4390FF;
+				width: 35px;
+				height: 15px;
+				position: absolute;
+				padding: 5px;
+				font-size: 1em;
+				text-align: center;
+				color: white;
+			}
+        </style>
+    </head>
+
+    <body>
+
+        <div id="bar">
+            <div id="circle"></div>
+        </div>
+		<input id="inputfield" type="text" name="feld" value="">
+
+        <script>
+			
+			$(document).ready(function(){
+                var slide = false;
+				var onfield = false;
+				var wert;
+				
+                $('#circle').mousedown(function(e){
+                    slide=true;
+                });
+                
+                $(document).mouseup(function(){
+                    slide=false;
+                });
+                
+                $(document).mousemove(function(e){
+                    if(slide){
+                        if(e.pageX > 212 && e.pageX < 388){
+							wert = e.pageX-213
+                            $('#circle').css({left: e.pageX-213});
+							$('#inputfield').val(wert);
+							$('#inputfield').css('visibility','hidden');
+                        } 
+                    }
+					$('#inputfield').val(wert);
+                });
+			
+				$('#inputfield').mouseover(function(e){
+					onfield=true;
+				});
+				
+				$('#inputfield').mousedown(function(e){
+					onfield=true;
+				});
+				
+				$('#inputfield').mouseout(function(e){
+					$('#inputfield').css('visibility','hidden');
+					onfield=false;
+				});
+
+				$('#circle').dblclick(function(e){
+					var left = parseInt($('#circle').offset().left);
+					var top = parseInt($('#circle').offset().top);
+					
+					$('#inputfield').css('visibility','visible');
+					$('#inputfield').css('top', (top) + "px");
+					$('#inputfield').css('left', (left-7) + "px");
+				});
+				
+				$('#circle').mouseout(function(e){
+					if (onfield==false){
+					}
+				});
+				
+				$('#inputfield').keyup(function(e) {
+					if(e.keyCode == 13) {
+						wert = $("#inputfield").val();
+						if (wert>173)
+							{wert=173
+							}
+						if (wert<0)
+							{wert=0
+							}
+						$('#circle').css('left',(wert) + "px");
+					}
+				});
+			});
+  
+        </script>
+    </body>
+</html> 
